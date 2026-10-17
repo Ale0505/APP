@@ -72,6 +72,47 @@ body.playing{background:#050505}body.playing .wrap{width:100%;max-width:none}bod
 #tribute .ceremony-prize .game-eyebrow{color:#705020}
 @media(max-width:350px){#tribute .ceremony-grid{gap:9px}#tribute .ceremony-envelope{min-height:174px}}
 #tribute .arena-clock{position:fixed;top:55px;left:0;right:0;z-index:44;padding:9px 14px 10px;background:#0b0a09f5;border-bottom:1px solid #8b6536;color:#d6b87b;font:10px Montserrat,sans-serif;letter-spacing:1.1px}#tribute .arena-clock-head{display:flex;justify-content:space-between;gap:8px;margin-bottom:7px}#tribute .arena-clock strong{font:600 15px Cinzel,serif;color:#f0d18a;font-variant-numeric:tabular-nums}#tribute .arena-clock-track{height:6px;background:#30271d;border-radius:10px;overflow:hidden}#tribute .arena-clock-fill{height:100%;width:100%;background:linear-gradient(90deg,#85642d,#d7b36b);transition:width 1s linear}#tribute .arena-clock.critical{border-bottom-color:#c94439}#tribute .arena-clock.critical .arena-clock-fill{background:#d14838}#tribute:has(.arena-clock:not(.hidden)) #tributeContent{padding-top:127px}#tribute .arena-clock.hidden{display:none}#tribute .arena-destroyed{text-align:center;padding:24px 12px;border:1px solid #a03c36;background:#220d0c;margin:30px 0;color:#efb5aa}#tribute .arena-destroyed h2{font-family:Cinzel,serif;color:#f4b5a7}
+
+/* TRAMA — estabilidad y adaptación móvil iOS */
+html{width:100%;max-width:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-bottom:calc(85px + env(safe-area-inset-bottom));}
+body{width:100%;max-width:100%;overflow-x:clip;}
+.wrap,main,#dashboard,#editor,#tribute,.card,.step,.configitem,.tribute-panel{min-width:0;max-width:100%;}
+*,*::before,*::after{box-sizing:border-box;}
+img,video,canvas,svg,iframe{max-width:100%;}
+img{height:auto;}
+input,textarea,select{font-size:16px!important;max-width:100%;min-width:0;}
+button,a,[role="button"]{touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+button{max-width:100%;white-space:normal;overflow-wrap:anywhere;}
+.grid,.twocol,.chipgrid,.medals,.door-slots,#tribute .game-medals,#tribute .game-slots,#tribute .inv-medal-grid,#tribute .inv-stats{min-width:0;}
+.grid>*,.twocol>*,.chipgrid>*,.rowbtn>*,.flex>*,.adventure>*,.top-actions>*{min-width:0;}
+.rowbtn>*{flex-basis:140px;}
+.field,.field input,.field textarea,.field select{min-width:0;}
+.card,.step,.configitem,.tribute-panel,#tribute .game-card{overflow-wrap:anywhere;}
+#tribute{width:100%;max-width:100%;overflow-x:clip;padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right));}
+#tribute #tributeContent{width:100%;max-width:520px;min-width:0;}
+#tribute .game-top{padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right));gap:8px;}
+#tribute .game-top>*{min-width:0;}
+#tribute .game-input{font-size:16px!important;}
+#tribute .compass-face{max-width:calc(100vw - 44px);}
+#tribute .inv-figure img{width:auto;max-width:100%;height:auto;}
+#tribute .inv-return{max-width:100%;}
+#tribute .ceremony-envelope{max-width:100%;}
+@media(max-width:390px){
+ .top{gap:7px}.brand{gap:7px}.top-actions{gap:5px}#accountEmail{max-width:95px}
+ .twocol{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .chipgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ #tribute .game-top{font-size:7px;letter-spacing:.5px}
+ #tribute h1{font-size:clamp(22px,7vw,31px)}
+ #tribute h2{font-size:clamp(19px,6vw,24px)}
+ #tribute .inv-stat{padding:12px 2px}
+ #tribute .inv-stat strong{font-size:clamp(12px,4.3vw,20px)}
+ #tribute .inv-stat small{letter-spacing:.5px;font-size:8px}
+ #tribute .inv-medal-card{padding:12px 5px;min-height:165px}
+ #tribute .inv-medal-card img{max-width:65px;max-height:65px}
+}
+@media(max-width:330px){.twocol{grid-template-columns:1fr}.rowbtn>*{flex-basis:100%}}
+@media(prefers-reduced-motion:reduce){html:focus-within{scroll-behavior:auto}}
+
 </style>
 </head>
 <body>
