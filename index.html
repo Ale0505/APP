@@ -257,7 +257,7 @@ function playEquipScan(){
  if(game.equipped){gameRender();return}
  const overlay=tnode('div','inv-scan');const img=tnode('img');img.src='capitolio.png.webp';overlay.append(img,tnode('h2','','PREPARANDO TRIBUTO'),tnode('p','','EQUIPANDO EQUIPO MÍNIMO'));const track=tnode('div','inv-scan-track'),fill=tnode('div','inv-scan-fill'),pct=tnode('div','inv-scan-percent','0 %');track.append(fill);overlay.append(track,pct);$('tribute').append(overlay);let progress=0;const timer=setInterval(()=>{if(!overlay.isConnected){clearInterval(timer);return}progress=Math.min(100,progress+2);fill.style.width=progress+'%';pct.textContent=progress+' %';if(progress===100){clearInterval(timer);setTimeout(()=>{game.equipped=true;gameSave();overlay.remove();game.returnStage='equipo';gnext('inventario')},500)}},45)
 }
-function districtImage(d){return d==='Capitolio'?'capitolio.png.webp':'distrito_'+(d.match(/\d+/)?.[0]||'')+'.webp'}
+function districtImage(d){const n=Number(d.match(/\d+/)?.[0]||0);return d==='Capitolio'?'capitolio.png.webp':'distrito_'+n+(new Set([3,4,5,6,7,9,10]).has(n)?'.WEBP':'.webp')}
 function districtEmblem(d,extraClass=''){
  const wrap=tnode('span','district-emblem '+extraClass);
  const fallback=tnode('span','district-emblem-fallback',d==='Capitolio'?'✦':String(d.match(/\d+/)?.[0]||'✦'));
