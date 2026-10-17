@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b0e0e">
 <title>TRAMA</title>
+<meta name="trama-build" content="ios-arena-recovery-20261017">
 <meta name="apple-mobile-web-app-title" content="TRAMA">
 <meta name="application-name" content="TRAMA">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -148,6 +149,23 @@ body.ios-standalone #tribute .arena-clock{top:calc(55px + var(--trama-safe-top))
 #tribute .ceremony-envelope .district-emblem{width:75px;height:75px;margin:10px auto}
 #tribute .ceremony-letter-paper .district-emblem{width:70px;height:70px;margin:0 auto 8px}
 @media(max-width:390px){#tribute .game-slot .district-emblem{width:23px;height:23px}#tribute .ceremony-envelope .district-emblem{width:60px;height:60px}}
+
+/* Guía de instalación del tributo: previa a la Cosecha */
+#tribute .install-guide{width:100%;max-width:570px;margin:0 auto;text-align:center;padding-bottom:32px}
+#tribute .install-guide h1{font:clamp(25px,7vw,38px)/1.2 Cinzel,Georgia,serif;color:#f2eee5;margin:16px 0}
+#tribute .install-guide .install-intro{color:#bdb4a6;font-size:13px;line-height:1.7;margin:14px auto 23px;max-width:440px}
+#tribute .install-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;text-align:left}
+#tribute .install-step{background:#10100f;border:1px solid #6d5936;padding:15px 12px;min-width:0;position:relative}
+#tribute .install-step .install-number{font:12px Cinzel,serif;color:#c9aa70;letter-spacing:2px;margin-bottom:10px}
+#tribute .install-step strong{display:block;font:14px Cinzel,Georgia,serif;color:#e4c991;line-height:1.4;margin:10px 0 7px}
+#tribute .install-step p{color:#b8afa2;font-size:12px;line-height:1.55;margin:0}
+#tribute .install-visual{height:76px;border:1px solid #423726;background:linear-gradient(160deg,#25211b,#080808);display:flex;justify-content:center;align-items:center;gap:7px;color:#e5c68b;font-size:27px}
+#tribute .install-visual .install-mini-icon{width:52px;height:52px;border-radius:12px;border:2px solid #a88649;display:grid;place-items:center;background:#050505;color:#e0bd75;font:30px Georgia,serif}
+#tribute .install-hint{border:1px solid #4d412f;padding:13px;margin-top:18px;color:#bdb3a2;font-size:12px;line-height:1.65;text-align:left}
+#tribute .install-hint b{color:#e3c68c}
+#tribute .install-guide .game-btn{margin-top:18px}
+#tribute .install-guide .install-skip{background:transparent;border-color:#514733;color:#aaa296}
+@media(max-width:360px){#tribute .install-steps{gap:8px}#tribute .install-step{padding:11px 9px}#tribute .install-step strong{font-size:12px}#tribute .install-step p{font-size:11px}}
 </style>
 </head>
 <body>
@@ -273,7 +291,28 @@ function canaryTimeToEpoch(year,month,day,hour,minute,second){let guess=Date.UTC
 function startArenaTimer(){const t=config.temporizador||{};if(t.modo==='off'||!t.modo)return;const now=Date.now();game.arenaTimerStarted=now;if(t.modo==='duration'){game.arenaDeadline=now+(Number(t.horas||0)*3600+Number(t.minutos||0)*60+Number(t.segundos||0))*1000}else if(t.modo==='clock'){const p=canaryDateParts(new Date(now)),a=(t.hasta||'23:00:00').split(':').map(Number);let due=canaryTimeToEpoch(p.year,p.month,p.day,a[0],a[1],a[2]||0);if(due<=now){const tomorrow=new Date(Date.UTC(p.year,p.month-1,p.day)+86400000);due=canaryTimeToEpoch(tomorrow.getUTCFullYear(),tomorrow.getUTCMonth()+1,tomorrow.getUTCDate(),a[0],a[1],a[2]||0)}game.arenaDeadline=due}gameSave()}
 function updateArenaTimer(){const panel=$('arenaClock');if(!game||!game.arenaDeadline||game.escaped||!TIMER_ACTIVE_STAGES.has(game.stage)){panel.classList.add('hidden');return}const remaining=Math.max(0,game.arenaDeadline-Date.now());if(remaining===0){panel.classList.add('hidden');if(game.stage!=='destruida'){game.stage='destruida';gameSave();gameRender()}return}panel.classList.remove('hidden');panel.classList.toggle('critical',remaining<=300000);const total=Math.max(1000,game.arenaDeadline-(game.arenaTimerStarted||game.arenaDeadline-1000));$('arenaClockFill').style.width=(remaining/total*100).toFixed(2)+'%';const sec=Math.ceil(remaining/1000),h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;$('arenaClockText').textContent=[h,m,s].map(n=>String(n).padStart(2,'0')).join(':')}
 setInterval(()=>{if(game&&$('tribute').classList.contains('hidden')===false)updateArenaTimer()},250);
-function gameRender(){if(!game)return;clearTimeout(gameTimer);gameTimer=0;gameBusy=false;const root=gp();if(gameMap){gameMap.remove();gameMap=null;gameMapMarker=null;gameMapTarget=null}root.replaceChildren();root.style.animation='none';void root.offsetWidth;root.style.animation='gfade .5s ease';const st=game.stage,ds=config.distritos;if(game.arenaDeadline&&Date.now()>=game.arenaDeadline&&!game.escaped&&TIMER_ACTIVE_STAGES.has(st)){game.stage='destruida';gameSave();return gameRender()}updateArenaTimer();game.openedLetters=Array.isArray(game.openedLetters)?game.openedLetters:[];
+function installationGuideKey(){return `trama-install-guide-v1-${publicAdventureId}`}
+function isStandaloneApp(){return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true}
+function showInstallationGuide(root){
+ const panel=tnode('section','install-guide');
+ const logo=tnode('img','game-logo');logo.src='capitolio.png.webp';logo.alt='Capitolio';panel.append(logo);
+ panel.append(tnode('div','game-eyebrow','COMUNICADO PREVIO DEL CAPITOLIO'),tnode('h1','','PREPARA TU DISPOSITIVO'),tnode('p','install-intro','Antes de comenzar la Cosecha, puedes añadir TRAMA a la pantalla de inicio de tu iPhone para vivir la experiencia como una aplicación. Solo tendrás que hacerlo una vez.'));
+ const steps=tnode('div','install-steps');
+ const items=[
+  ['01','ABRE EL MENÚ','En Safari, pulsa Compartir (el cuadrado con una flecha hacia arriba).','⇧'],
+  ['02','AÑADE A INICIO','Desplázate por el menú y elige «Añadir a pantalla de inicio».','⊞'],
+  ['03','CONFIRMA','Deja el nombre TRAMA, activa «Abrir como app web» y pulsa «Añadir».','✓'],
+  ['04','ENTRA EN TRAMA','Abre el icono negro y dorado de TRAMA desde tu pantalla de inicio.','T']
+ ];
+ for(const [num,title,description,symbol] of items){const card=tnode('div','install-step');card.append(tnode('div','install-number','PASO '+num));const visual=tnode('div','install-visual');visual.append(tnode('div','install-mini-icon',symbol));card.append(visual,tnode('strong','',title),tnode('p','',description));steps.append(card)}
+ panel.append(steps);
+ const hint=tnode('div','install-hint');hint.append(tnode('b','','IMPORTANTE · '),document.createTextNode('Hazlo desde Safari con el enlace completo de tu Arena. Si el icono abre TRAMA sin reconocer tu partida, podrás pegar el enlace una sola vez en la pantalla de recuperación. Instalarla es opcional.'));panel.append(hint);
+ const go=()=>{localStorage.setItem(installationGuideKey(),'1');gameRender()};
+ tbutton(panel,'YA LA HE AÑADIDO · CONTINUAR',go);
+ tbutton(panel,'CONTINUAR SIN INSTALAR',go,'game-btn install-skip');
+ root.append(panel);
+}
+function gameRender(){if(!game)return;clearTimeout(gameTimer);gameTimer=0;gameBusy=false;const root=gp();if(gameMap){gameMap.remove();gameMap=null;gameMapMarker=null;gameMapTarget=null}root.replaceChildren();root.style.animation='none';void root.offsetWidth;root.style.animation='gfade .5s ease';const st=game.stage,ds=config.distritos;if(publishedMode&&st==='inicio'&&!isStandaloneApp()&&!localStorage.getItem(installationGuideKey())){ $('gameBottom').classList.add('hidden');$('arenaClock').classList.add('hidden');showInstallationGuide(root);return }if(game.arenaDeadline&&Date.now()>=game.arenaDeadline&&!game.escaped&&TIMER_ACTIVE_STAGES.has(st)){game.stage='destruida';gameSave();return gameRender()}updateArenaTimer();game.openedLetters=Array.isArray(game.openedLetters)?game.openedLetters:[];
  $('gameBottom').classList.toggle('hidden',!['equipo','transmision','brujula','codigo','recuperada','inventario','puerta','final','ceremonia','carta','cierre'].includes(st));$('tributeInventory').disabled=st==='inventario';$('tributeCompass').disabled=!game.equipped||st==='brujula'||['final','ceremonia','carta','cierre'].includes(st)||(st==='inventario'&&game.returnStage==='equipo');
  if(st==='destruida'){gtitle('ARENA DESTRUIDA','TRANSMISIÓN FINAL');const c=tnode('div','arena-destroyed');c.append(tnode('h2','','TIEMPO AGOTADO'),tnode('p','','El plazo de evacuación ha terminado. El Capitolio confirma la destrucción de la Arena.'));root.append(c);gtext(root,'El organizador puede reiniciar la partida para comenzar una nueva edición.')}else if(st==='inicio'){gtitle('LA COSECHA','PANEM · REGISTRO OFICIAL');gtext(root,'Todo ciudadano elegible deberá presentarse ante el sistema de selección del Capitolio.');tbutton(root,'INICIAR CEREMONIA',()=>{gaudio();gnext('registro')})}
  else if(st==='registro'){gtitle('IDENTIFICACIÓN','REGISTRO DE CIUDADANOS');const c=gcard(root),first=gfield(c,'Nombre','text',game.first),last=gfield(c,'Apellidos','text',game.last),birth=gfield(c,'Fecha de nacimiento','date',game.birth);tbutton(root,'REGISTRAR CIUDADANO',()=>{if(!first.value.trim()||!last.value.trim()||!birth.value)return alert('Completa todos los datos.');game.first=first.value.trim();game.last=last.value.trim();game.birth=birth.value;gnext('verificacion')})}
@@ -430,7 +469,19 @@ async function checkPublicReset(){
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkPublicReset()});
 window.addEventListener('focus',checkPublicReset);
 setInterval(()=>{if(publishedMode&&!document.hidden)checkPublicReset()},20000);
-function publicLink(id){const url=new URL(window.location.href);url.search='';url.hash='';url.searchParams.set('jugar',id);return url.toString()}
+function publicLink(id){const url=new URL(window.location.href);url.search='';url.hash='';url.searchParams.set('jugar',id);url.hash='jugar='+encodeURIComponent(id);return url.toString()}
+const TRAMA_LAST_ARENA='trama-ultima-arena-publica-v1';
+function requestedArena(){const params=new URLSearchParams(location.search);const hash=new URLSearchParams(location.hash.replace(/^#/,''));return params.get('jugar')||hash.get('jugar')||null}
+function saveArenaLaunch(id){try{localStorage.setItem(TRAMA_LAST_ARENA,id)}catch(e){console.warn('No se pudo conservar el acceso',e)}}
+function recoverArenaLaunch(){try{return localStorage.getItem(TRAMA_LAST_ARENA)}catch{return null}}
+function showArenaRecovery(){
+ show('loading');const root=$('loading');root.replaceChildren();
+ const crest=tnode('div','crest','✦'),title=tnode('h1','','RECUPERAR ARENA'),desc=tnode('p','','TRAMA se ha abierto como aplicación sin el enlace de tu Arena. Pega aquí el enlace que te envió el organizador. Solo tendrás que hacerlo una vez en este dispositivo.');
+ const field=tnode('input');field.type='url';field.placeholder='https://ale0505.github.io/APP/?jugar=...';field.setAttribute('aria-label','Enlace de la Arena');field.style.margin='20px 0 10px';
+ const button=tnode('button','btn','ENTRAR EN MI ARENA');const feedback=tnode('p','hint','');
+ button.onclick=()=>{let id='';try{const value=field.value.trim();const u=new URL(value,location.href);id=new URLSearchParams(u.search).get('jugar')||new URLSearchParams(u.hash.replace(/^#/,'')).get('jugar')||'';if(!id&&/^[0-9a-f-]{36}$/i.test(value))id=value}catch{}if(!/^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(id)){feedback.textContent='Introduce el enlace completo de la Arena que te enviaron.';return}saveArenaLaunch(id);const url=new URL(location.href);url.searchParams.set('jugar',id);url.hash='jugar='+encodeURIComponent(id);location.replace(url.toString())};
+ root.append(crest,title,desc,field,button,feedback);
+}
 function refreshPublishPanel(){
  const active=!!editing;
  $('publishBtn').disabled=!active||editorPublished;
@@ -463,7 +514,7 @@ async function startPublicGame(id){
  show('loading');$('loading').querySelector('h1').textContent='Preparando la Cosecha…';
  const {data,error}=await supabase.from('aventuras').select('id,nombre,configuracion,reset_version').eq('id',id).eq('estado','publicada').maybeSingle();
  if(error||!data){$('loading').querySelector('h1').textContent='Arena no disponible';$('loading').querySelector('p').textContent='El enlace no existe, la Arena no está publicada o falta configurar el acceso público en Supabase.';return}
- publishedMode=true;organizerTesting=false;publicAdventureId=data.id;config=normalize(data.configuracion);editing=null;
+ publishedMode=true;organizerTesting=false;publicAdventureId=data.id;saveArenaLaunch(data.id);config=normalize(data.configuracion);editing=null;
  let old;try{old=JSON.parse(localStorage.getItem(gameKey()))}catch{}
  publicResetVersion=Number(data.reset_version||0);
  game=old&&old.version===3&&Number(old.resetVersion||0)===publicResetVersion?old:freshGame();
@@ -472,8 +523,8 @@ async function startPublicGame(id){
  $('exitPreview').classList.add('hidden');$('gameAdminBtn').classList.add('hidden');$('gameModeLabel').textContent='TRIBUTO · '+data.nombre.toUpperCase();
  document.body.classList.add('playing');show('tribute');gameRender();startGeo();
 }
-supabase.auth.onAuthStateChange((event,session)=>{if(publishedMode||new URLSearchParams(window.location.search).has('jugar'))return;user=session?.user||null;if(event==='PASSWORD_RECOVERY'){recovery=true;show('reset')}if(event==='SIGNED_OUT'){user=null;recovery=false;show('auth')}});
-(async()=>{try{const requested=new URLSearchParams(window.location.search).get('jugar');if(requested){if(!/^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(requested)){show('loading');$('loading').querySelector('h1').textContent='Enlace inválido';return}await startPublicGame(requested);return}const {data,error}=await supabase.auth.getSession();if(error)throw error;user=data.session?.user||null;if(recovery){show('reset')}else if(user){await openDashboard()}else{setMode('login');show('auth')}}catch(e){if(new URLSearchParams(window.location.search).has('jugar')){show('loading');$('loading').querySelector('h1').textContent='No se pudo abrir la Arena';$('loading').querySelector('p').textContent=friendly(e)}else{show('auth');message('No se pudo conectar con Supabase: '+friendly(e),true)}}})();
+supabase.auth.onAuthStateChange((event,session)=>{if(publishedMode||requestedArena()||isStandaloneApp())return;user=session?.user||null;if(event==='PASSWORD_RECOVERY'){recovery=true;show('reset')}if(event==='SIGNED_OUT'){user=null;recovery=false;show('auth')}});
+(async()=>{try{const requested=requestedArena()||(isStandaloneApp()?recoverArenaLaunch():null);if(requested){if(!/^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(requested)){show('loading');$('loading').querySelector('h1').textContent='Enlace inválido';return}await startPublicGame(requested);return}if(isStandaloneApp()){showArenaRecovery();return}const {data,error}=await supabase.auth.getSession();if(error)throw error;user=data.session?.user||null;if(recovery){show('reset')}else if(user){await openDashboard()}else{setMode('login');show('auth')}}catch(e){if(requestedArena()||isStandaloneApp()){show('loading');$('loading').querySelector('h1').textContent='No se pudo abrir la Arena';$('loading').querySelector('p').textContent=friendly(e)}else{show('auth');message('No se pudo conectar con Supabase: '+friendly(e),true)}}})();
 </script>
 <script>if(window.navigator.standalone===true){document.body.classList.add('ios-standalone')}</script>
 </body></html>
