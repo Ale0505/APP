@@ -95,7 +95,7 @@ body.playing{background:#050505}body.playing .wrap{width:100%;max-width:none}bod
 <div class="radios"><label class="radio"><input type="radio" name="playMode" value="digital" checked><span><strong>Digital</strong><small>Medallas e inserción en la puerta virtual.</small></span></label><label class="radio"><input type="radio" name="playMode" value="fisica"><span><strong>Física</strong><small>Medallas y puerta reales; el progreso también se registra en la aplicación.</small></span></label><label class="radio"><input type="radio" name="playMode" value="mixta"><span><strong>Mixta</strong><small>Medallas físicas y digitales; puerta física y virtual.</small></span></label></div>
 <div class="divider"></div><label class="field"><span>Mensaje de evacuación</span><textarea id="escapeMessage" maxlength="1000" placeholder="La Arena será destruida. Reúne todas las medallas para escapar..."></textarea></label>
 <div class="twocol"><label class="field"><span>Latitud de salida</span><input id="doorLat" type="number" step="any" min="-90" max="90" placeholder="28.00000"></label><label class="field"><span>Longitud de salida</span><input id="doorLng" type="number" step="any" min="-180" max="180" placeholder="-15.00000"></label></div><p class="hint">Coordenadas opcionales durante la preparación. En la versión jugable validaremos los puntos GPS y la seguridad del recorrido.</p></div>
-<button class="btn secondary" type="button" id="previewBtn">▶ Probar experiencia del tributo</button><div class="step" id="publishPanel"><h3>07 · Publicar y compartir</h3><p>Guarda primero la aventura. Después podrás activarla y entregar al tributo un código QR. El jugador no necesita cuenta.</p><div class="rowbtn"><button class="btn" type="button" id="publishBtn">PUBLICAR ARENA</button><button class="btn secondary" type="button" id="unpublishBtn">DESPUBLICAR</button></div><p id="publishStatus" class="hint">Guarda la Arena para activar la publicación.</p><div id="sharePanel" class="hidden"><div id="qrCode" style="display:flex;justify-content:center;margin:20px auto;background:white;padding:12px;width:max-content;max-width:100%"></div><label class="field"><span>Enlace para el tributo</span><input id="shareUrl" readonly></label><button class="btn secondary" type="button" id="copyShare">COPIAR ENLACE</button><p class="hint">Puedes mantener pulsado el QR para guardar su imagen desde Safari. Si el QR no carga, comparte el enlace.</p></div></div><div class="savebar"><button class="btn" id="saveAdv" type="submit">Guardar Arena en Supabase</button><div id="saveStatus" class="statusline" aria-live="polite"></div></div>
+<button class="btn secondary" type="button" id="previewBtn">▶ Probar experiencia del tributo</button><div class="step" id="publishPanel"><h3>07 · Publicar y compartir</h3><p>Guarda primero la aventura. Después podrás activarla y entregar al tributo un código QR. El jugador no necesita cuenta.</p><div class="rowbtn"><button class="btn" type="button" id="publishBtn">PUBLICAR ARENA</button><button class="btn secondary" type="button" id="unpublishBtn">DESPUBLICAR</button></div><p id="publishStatus" class="hint">Guarda la Arena para activar la publicación.</p><div id="sharePanel" class="hidden"><div id="qrCode" style="display:flex;justify-content:center;margin:20px auto;background:white;padding:12px;width:max-content;max-width:100%"></div><label class="field"><span>Enlace para el tributo</span><input id="shareUrl" type="text" readonly style="color:#f5e5bd!important;-webkit-text-fill-color:#f5e5bd!important;opacity:1!important"></label><a id="openShare" class="btn secondary" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;margin-bottom:10px" href="#">ABRIR ENLACE DEL TRIBUTO ↗</a><button class="btn secondary" type="button" id="copyShare">COPIAR ENLACE</button><p class="hint">Puedes mantener pulsado el QR para guardar su imagen desde Safari. Si el QR no carga, comparte el enlace.</p></div></div><div class="savebar"><button class="btn" id="saveAdv" type="submit">Guardar Arena en Supabase</button><div id="saveStatus" class="statusline" aria-live="polite"></div></div>
 </form><button class="btn danger" id="deleteAdv" type="button">Eliminar esta aventura</button>
 </section>
 <section id="tribute" class="hidden"><div class="game-top"><button class="game-exit" id="exitPreview">← EDITOR</button><span id="gameModeLabel">SIMULACIÓN PRIVADA · CAPITOLIO</span><button class="game-exit" id="gameAdminBtn">PRUEBAS</button></div><div id="tributeContent"></div><nav class="game-bottom" id="gameBottom"><button type="button" id="tributeInventory">▣ INVENTARIO</button><button type="button" id="tributeCompass">⌖ BRÚJULA</button></nav><div class="game-admin hidden" id="gameAdmin"><div class="game-admin-panel"><h2>CONTROL DEL CAPITOLIO</h2><p>Solo disponible en la vista de prueba.</p><div id="gameAdminActions"></div><button class="game-btn alt" id="closeGameAdmin">CERRAR</button></div></div></section>
@@ -289,9 +289,31 @@ function refreshPublishPanel(){
  $('unpublishBtn').disabled=!active||!editorPublished;
  $('publishStatus').textContent=!active?'Guarda primero esta Arena.':editorPublished?'✓ Arena publicada. Cualquier persona con el enlace puede jugar.':'Arena privada. Pulsa PUBLICAR ARENA para habilitar el QR.';
  $('sharePanel').classList.toggle('hidden',!active||!editorPublished);
- if(active&&editorPublished){const link=publicLink(editing);$('shareUrl').value=link;const holder=$('qrCode');holder.replaceChildren();if(window.QRCode){new window.QRCode(holder,{text:link,width:220,height:220,colorDark:'#141414',colorLight:'#ffffff',correctLevel:window.QRCode.CorrectLevel.M})}else holder.textContent='QR no disponible. Copia el enlace de abajo.'}
+ if(active&&editorPublished){
+  const link=publicLink(editing);
+  $('shareUrl').value=link;
+  $('shareUrl').setAttribute('value',link);
+  $('openShare').href=link;
+  const holder=$('qrCode');holder.replaceChildren();
+  try{
+   if(typeof window.QRCode==='function'){
+    const opts={text:link,width:220,height:220,colorDark:'#141414',colorLight:'#ffffff'};
+    if(window.QRCode.CorrectLevel)opts.correctLevel=window.QRCode.CorrectLevel.M;
+    new window.QRCode(holder,opts);
+   }else{holder.textContent='QR no disponible. Usa el enlace inferior.';holder.style.color='#111';}
+  }catch(err){console.warn('Error generando QR',err);holder.textContent='QR no disponible. Usa el enlace inferior.';holder.style.color='#111';}
+ }
 }
-$('copyShare').onclick=async()=>{try{await navigator.clipboard.writeText($('shareUrl').value);$('publishStatus').textContent='✓ Enlace copiado.'}catch{ $('shareUrl').select();alert('Selecciona y copia el enlace.')}};
+$('copyShare').onclick=async()=>{
+ const link=$('shareUrl').value|| (editing?publicLink(editing):'');
+ if(!link){alert('No hay un enlace disponible todavía.');return}
+ try{await navigator.clipboard.writeText(link);$('publishStatus').textContent='✓ Enlace copiado.'}
+ catch(e){
+  const input=$('shareUrl');input.value=link;input.focus();input.select();input.setSelectionRange(0,link.length);
+  try{if(document.execCommand('copy')){$('publishStatus').textContent='✓ Enlace copiado.';return}}catch(_){}
+  prompt('Copia este enlace para el tributo:',link);
+ }
+};
 $('publishBtn').onclick=async()=>{if(!editing||!user)return; if(!confirm('¿Publicar esta Arena? Los jugadores con el enlace podrán acceder a su contenido. Guarda antes los últimos cambios.'))return;const {error}=await supabase.from('aventuras').update({estado:'publicada',actualizado_en:new Date().toISOString()}).eq('id',editing).eq('usuario_id',user.id);if(error){alert('No se pudo publicar: '+friendly(error));return}editorPublished=true;refreshPublishPanel();message('Arena publicada. Comparte su QR con el tributo.')};
 $('unpublishBtn').onclick=async()=>{if(!editing||!user)return;if(!confirm('¿Despublicar? El enlace dejará de iniciar nuevas partidas.'))return;const {error}=await supabase.from('aventuras').update({estado:'borrador',actualizado_en:new Date().toISOString()}).eq('id',editing).eq('usuario_id',user.id);if(error){alert('No se pudo despublicar: '+friendly(error));return}editorPublished=false;refreshPublishPanel();message('Arena despublicada.')};
 async function startPublicGame(id){
