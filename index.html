@@ -95,7 +95,7 @@ body.playing{background:#050505}body.playing .wrap{width:100%;max-width:none}bod
 <div class="radios"><label class="radio"><input type="radio" name="playMode" value="digital" checked><span><strong>Digital</strong><small>Medallas e inserción en la puerta virtual.</small></span></label><label class="radio"><input type="radio" name="playMode" value="fisica"><span><strong>Física</strong><small>Medallas y puerta reales; el progreso también se registra en la aplicación.</small></span></label><label class="radio"><input type="radio" name="playMode" value="mixta"><span><strong>Mixta</strong><small>Medallas físicas y digitales; puerta física y virtual.</small></span></label></div>
 <div class="divider"></div><label class="field"><span>Mensaje de evacuación</span><textarea id="escapeMessage" maxlength="1000" placeholder="La Arena será destruida. Reúne todas las medallas para escapar..."></textarea></label>
 <div class="twocol"><label class="field"><span>Latitud de salida</span><input id="doorLat" type="number" step="any" min="-90" max="90" placeholder="28.00000"></label><label class="field"><span>Longitud de salida</span><input id="doorLng" type="number" step="any" min="-180" max="180" placeholder="-15.00000"></label></div><p class="hint">Coordenadas opcionales durante la preparación. En la versión jugable validaremos los puntos GPS y la seguridad del recorrido.</p></div>
-<div class="step" id="organizerTestingPanel"><h3>Modo de pruebas del organizador</h3><p class="hint">Solo funciona en la vista privada del editor. No se publica, no modifica la Arena ni aparece jamás en el enlace del tributo.</p><label style="display:flex;gap:12px;align-items:center;padding:12px 0;color:#e7d2a2"><input type="checkbox" id="organizerTestToggle" style="width:22px;height:22px;accent-color:#c5a35b"> Activar temporalmente saltos y simulaciones</label><p class="hint" id="organizerTestStatus">Pruebas desactivadas: la vista previa funciona como la del tributo.</p></div><button class="btn secondary" type="button" id="previewBtn">▶ Probar experiencia del tributo</button><div class="step" id="publishPanel"><h3>07 · Publicar y compartir</h3><p>Guarda primero la aventura. Después podrás activarla y compartir con el tributo un enlace directo. El jugador no necesita cuenta.</p><div class="rowbtn"><button class="btn" type="button" id="publishBtn">PUBLICAR ARENA</button><button class="btn secondary" type="button" id="unpublishBtn">DESPUBLICAR</button></div><p id="publishStatus" class="hint">Guarda la Arena para activar la publicación.</p><div id="sharePanel" class="hidden"><label class="field"><span>Enlace para el tributo</span><input id="shareUrl" type="text" readonly style="color:#f5e5bd!important;-webkit-text-fill-color:#f5e5bd!important;opacity:1!important"></label><a id="openShare" class="btn secondary" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;margin-bottom:10px" href="#">ABRIR ENLACE DEL TRIBUTO ↗</a><button class="btn secondary" type="button" id="copyShare">COPIAR ENLACE</button><p class="hint">Comparte este enlace con el tributo. Al abrirlo entrará directamente en la Cosecha, sin registrarse ni iniciar sesión.</p></div></div><div class="savebar"><button class="btn" id="saveAdv" type="submit">Guardar Arena en Supabase</button><div id="saveStatus" class="statusline" aria-live="polite"></div></div>
+<div class="step" id="organizerTestingPanel"><h3>Modo de pruebas del organizador</h3><p class="hint">Solo funciona en la vista privada del editor. No se publica, no modifica la Arena ni aparece jamás en el enlace del tributo.</p><label style="display:flex;gap:12px;align-items:center;padding:12px 0;color:#e7d2a2"><input type="checkbox" id="organizerTestToggle" style="width:22px;height:22px;accent-color:#c5a35b"> Activar temporalmente saltos y simulaciones</label><p class="hint" id="organizerTestStatus">Pruebas desactivadas: la vista previa funciona como la del tributo.</p></div><button class="btn secondary" type="button" id="previewBtn">▶ Probar experiencia del tributo</button><div class="step" id="publishPanel"><h3>07 · Publicar y compartir</h3><p>Guarda primero la aventura. Después podrás activarla y compartir con el tributo un enlace directo. El jugador no necesita cuenta.</p><div class="rowbtn"><button class="btn" type="button" id="publishBtn">PUBLICAR ARENA</button><button class="btn secondary" type="button" id="unpublishBtn">DESPUBLICAR</button></div><p id="publishStatus" class="hint">Guarda la Arena para activar la publicación.</p><div id="sharePanel" class="hidden"><label class="field"><span>Enlace para el tributo</span><input id="shareUrl" type="text" readonly style="color:#f5e5bd!important;-webkit-text-fill-color:#f5e5bd!important;opacity:1!important"></label><a id="openShare" class="btn secondary" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;margin-bottom:10px" href="#">ABRIR ENLACE DEL TRIBUTO ↗</a><button class="btn secondary" type="button" id="copyShare">COPIAR ENLACE</button><p class="hint">Comparte este enlace con el tributo. Al abrirlo entrará directamente en la Cosecha, sin registrarse ni iniciar sesión.</p></div></div><div class="step" id="resetProgressPanel"><h3>08 · Reiniciar partidas</h3><p class="hint">La vista previa y el tributo tienen progresos independientes. Reiniciar al tributo afectará a cualquier dispositivo que utilice el enlace público de esta Arena cuando vuelva a conectarse.</p><div class="rowbtn"><button class="btn secondary" type="button" id="resetPreviewProgress">REINICIAR MIS PRUEBAS</button><button class="btn secondary" type="button" id="resetTributeProgress">REINICIAR PARTIDA DEL TRIBUTO</button></div><p id="resetProgressStatus" class="hint"></p></div><div class="savebar"><button class="btn" id="saveAdv" type="submit">Guardar Arena en Supabase</button><div id="saveStatus" class="statusline" aria-live="polite"></div></div>
 </form><button class="btn danger" id="deleteAdv" type="button">Eliminar esta aventura</button>
 </section>
 <section id="tribute" class="hidden"><div class="game-top"><button class="game-exit" id="exitPreview">← EDITOR</button><span id="gameModeLabel">SIMULACIÓN PRIVADA · CAPITOLIO</span><button class="game-exit" id="gameAdminBtn">PRUEBAS</button></div><div id="tributeContent"></div><nav class="game-bottom" id="gameBottom"><button type="button" id="tributeInventory">▣ INVENTARIO</button><button type="button" id="tributeCompass">⌖ BRÚJULA</button></nav><div class="game-admin hidden" id="gameAdmin"><div class="game-admin-panel"><h2>CONTROL DEL CAPITOLIO</h2><p>Solo disponible en la vista de prueba.</p><div id="gameAdminActions"></div><button class="game-btn alt" id="closeGameAdmin">CERRAR</button></div></div></section>
@@ -285,10 +285,57 @@ $('gameAdminBtn').onclick=()=>{if(!canUseTests())return;const actions=$('gameAdm
 $('closeGameAdmin').onclick=()=>$('gameAdmin').classList.add('hidden');
 
 
+function freshGame(){return {version:3,stage:'inicio',first:'',last:'',birth:'',index:0,medals:[],equipped:false,inserted:[],hint:false,arenaStage:0,physicalDoor:false,escaped:false,openedLetters:[],selectedLetter:null}}
+$('resetPreviewProgress').onclick=()=>{
+ if(!editing||!user){alert('Guarda primero la Arena.');return}
+ if(!confirm('¿Borrar el progreso de tus pruebas en este dispositivo? No afectará al tributo.'))return;
+ localStorage.removeItem(`arena-original-v3-${user.id}-${editing}`);
+ $('resetProgressStatus').textContent='✓ Tus pruebas se reiniciarán al volver a entrar en la vista previa.';
+};
+$('resetTributeProgress').onclick=async()=>{
+ if(!editing||!user)return alert('Guarda primero la Arena.');
+ if(!editorPublished)return alert('Publica primero la Arena.');
+ if(!confirm('¿REINICIAR LA PARTIDA REAL? El tributo perderá medallas, equipamiento y progreso. Se reiniciarán todos los dispositivos que usen este enlace.'))return;
+ const btn=$('resetTributeProgress');btn.disabled=true;
+ try{
+  const {data,error}=await supabase.from('aventuras').select('reset_version').eq('id',editing).eq('usuario_id',user.id).single();
+  if(error)throw error;
+  const next=Number(data.reset_version||0)+1;
+  const result=await supabase.from('aventuras').update({reset_version:next}).eq('id',editing).eq('usuario_id',user.id).select('reset_version').single();
+  if(result.error)throw result.error;
+  $('resetProgressStatus').textContent='✓ Reinicio enviado. La partida empezará de nuevo cuando el tributo abra o vuelva a esta página.';
+ }catch(e){alert('No se pudo reiniciar. Comprueba que ejecutaste el SQL de esta versión. '+friendly(e))}
+ finally{btn.disabled=false}
+};
+let publicResetVersion=0,publicResetChecking=false;
+async function checkPublicReset(){
+ if(!publishedMode||!publicAdventureId||publicResetChecking)return;
+ publicResetChecking=true;
+ try{
+  const {data,error}=await supabase.from('aventuras').select('reset_version').eq('id',publicAdventureId).eq('estado','publicada').maybeSingle();
+  if(error||!data)return;
+  const current=Number(data.reset_version||0);
+  if(current!==publicResetVersion){
+   publicResetVersion=current;
+   game=freshGame();
+   game.resetVersion=current;
+   localStorage.setItem(gameKey(),JSON.stringify(game));
+   clearTimeout(gameTimer);
+   if(gameMap){gameMap.remove();gameMap=null;gameMapMarker=null;gameMapTarget=null}
+   gameRender();
+  }
+ }catch(e){console.warn('No se pudo comprobar el reinicio',e)}
+ finally{publicResetChecking=false}
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkPublicReset()});
+window.addEventListener('focus',checkPublicReset);
+setInterval(()=>{if(publishedMode&&!document.hidden)checkPublicReset()},20000);
 function publicLink(id){const url=new URL(window.location.href);url.search='';url.hash='';url.searchParams.set('jugar',id);return url.toString()}
 function refreshPublishPanel(){
  const active=!!editing;
  $('publishBtn').disabled=!active||editorPublished;
+ $('resetPreviewProgress').disabled=!active;
+ $('resetTributeProgress').disabled=!active||!editorPublished;
  $('unpublishBtn').disabled=!active||!editorPublished;
  $('publishStatus').textContent=!active?'Guarda primero esta Arena.':editorPublished?'✓ Arena publicada. Cualquier persona con el enlace puede jugar.':'Arena privada. Pulsa PUBLICAR ARENA para habilitar el enlace.';
  $('sharePanel').classList.toggle('hidden',!active||!editorPublished);
@@ -314,11 +361,14 @@ $('publishBtn').onclick=async()=>{if(!editing||!user)return; if(!confirm('¿Publ
 $('unpublishBtn').onclick=async()=>{if(!editing||!user)return;if(!confirm('¿Despublicar? El enlace dejará de iniciar nuevas partidas.'))return;const {error}=await supabase.from('aventuras').update({estado:'borrador',actualizado_en:new Date().toISOString()}).eq('id',editing).eq('usuario_id',user.id);if(error){alert('No se pudo despublicar: '+friendly(error));return}editorPublished=false;refreshPublishPanel();message('Arena despublicada.')};
 async function startPublicGame(id){
  show('loading');$('loading').querySelector('h1').textContent='Preparando la Cosecha…';
- const {data,error}=await supabase.from('aventuras').select('id,nombre,configuracion').eq('id',id).eq('estado','publicada').maybeSingle();
+ const {data,error}=await supabase.from('aventuras').select('id,nombre,configuracion,reset_version').eq('id',id).eq('estado','publicada').maybeSingle();
  if(error||!data){$('loading').querySelector('h1').textContent='Arena no disponible';$('loading').querySelector('p').textContent='El enlace no existe, la Arena no está publicada o falta configurar el acceso público en Supabase.';return}
  publishedMode=true;organizerTesting=false;publicAdventureId=data.id;config=normalize(data.configuracion);editing=null;
  let old;try{old=JSON.parse(localStorage.getItem(gameKey()))}catch{}
- game=old&&old.version===3?old:{version:3,stage:'inicio',first:'',last:'',birth:'',index:0,medals:[],equipped:false,inserted:[],hint:false,arenaStage:0,physicalDoor:false,escaped:false,openedLetters:[],selectedLetter:null};
+ publicResetVersion=Number(data.reset_version||0);
+ game=old&&old.version===3&&Number(old.resetVersion||0)===publicResetVersion?old:freshGame();
+ game.resetVersion=publicResetVersion;
+ localStorage.setItem(gameKey(),JSON.stringify(game));
  $('exitPreview').classList.add('hidden');$('gameAdminBtn').classList.add('hidden');$('gameModeLabel').textContent='TRIBUTO · '+data.nombre.toUpperCase();
  document.body.classList.add('playing');show('tribute');gameRender();startGeo();
 }
