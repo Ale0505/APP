@@ -207,6 +207,8 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL='https://apnwltmdjyqsvsxqnszh.supabase.co';
 const KEY='sb_publishable_n1HLTqi5iilyfhaqyK42bQ_Gp31SFZJ';
 const supabase=createClient(SUPABASE_URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+// Public access uses an independent anonymous client: installed iOS apps may have a different saved auth session.
+const publicSupabase=createClient(SUPABASE_URL,KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false},global:{headers:{'X-TRAMA-Client':'public-tribute'}}});
 const $=id=>document.getElementById(id);
 let user=null,mode='login',editing=null,recovery=false,config=null;
 let publishedMode=false,publicAdventureId=null,editorPublished=false;
@@ -451,7 +453,7 @@ async function checkPublicReset(){
  if(!publishedMode||!publicAdventureId||publicResetChecking)return;
  publicResetChecking=true;
  try{
-  const {data,error}=await supabase.from('aventuras').select('reset_version').eq('id',publicAdventureId).eq('estado','publicada').maybeSingle();
+  const {data,error}=await publicSupabase.from('aventuras').select('reset_version').eq('id',publicAdventureId).eq('estado','publicada').maybeSingle();
   if(error||!data)return;
   const current=Number(data.reset_version||0);
   if(current!==publicResetVersion){
@@ -512,8 +514,18 @@ $('publishBtn').onclick=async()=>{if(!editing||!user)return; if(!confirm('¿Publ
 $('unpublishBtn').onclick=async()=>{if(!editing||!user)return;if(!confirm('¿Despublicar? El enlace dejará de iniciar nuevas partidas.'))return;const {error}=await supabase.from('aventuras').update({estado:'borrador',actualizado_en:new Date().toISOString()}).eq('id',editing).eq('usuario_id',user.id);if(error){alert('No se pudo despublicar: '+friendly(error));return}editorPublished=false;refreshPublishPanel();message('Arena despublicada.')};
 async function startPublicGame(id){
  show('loading');$('loading').querySelector('h1').textContent='Preparando la Cosecha…';
- const {data,error}=await supabase.from('aventuras').select('id,nombre,configuracion,reset_version').eq('id',id).eq('estado','publicada').maybeSingle();
- if(error||!data){$('loading').querySelector('h1').textContent='Arena no disponible';$('loading').querySelector('p').textContent='El enlace no existe, la Arena no está publicada o falta configurar el acceso público en Supabase.';return}
+ let data=null,error=null;
+ try{const result=await publicSupabase.from('aventuras').select('id,nombre,configuracion,reset_version').eq('id',id).eq('estado','publicada').maybeSingle();data=result.data;error=result.error}catch(e){error=e}
+ if(error||!data){
+  const root=$('loading');root.replaceChildren();
+  root.append(tnode('div','crest','✦'),tnode('h1','','NO SE PUDO ABRIR LA ARENA'));
+  root.append(tnode('p','','La aplicación no ha podido cargar esta Arena. Puedes reintentar o volver a introducir el enlace del tributo.'));
+  const detail=tnode('p','hint',error?'Detalle técnico: '+(error.message||String(error)):'La consulta no devolvió una Arena publicada.');detail.style.overflowWrap='anywhere';root.append(detail);
+  const idNote=tnode('p','hint','Referencia de Arena: '+id);idNote.style.overflowWrap='anywhere';root.append(idNote);
+  const retry=tnode('button','btn','REINTENTAR CONEXIÓN');retry.onclick=()=>startPublicGame(id);root.append(retry);
+  const recover=tnode('button','btn secondary','INTRODUCIR ENLACE DE NUEVO');recover.style.marginTop='12px';recover.onclick=showArenaRecovery;root.append(recover);
+  return;
+ }
  publishedMode=true;organizerTesting=false;publicAdventureId=data.id;saveArenaLaunch(data.id);config=normalize(data.configuracion);editing=null;
  let old;try{old=JSON.parse(localStorage.getItem(gameKey()))}catch{}
  publicResetVersion=Number(data.reset_version||0);
