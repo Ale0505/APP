@@ -113,6 +113,22 @@ button{max-width:100%;white-space:normal;overflow-wrap:anywhere;}
 @media(max-width:330px){.twocol{grid-template-columns:1fr}.rowbtn>*{flex-basis:100%}}
 @media(prefers-reduced-motion:reduce){html:focus-within{scroll-behavior:auto}}
 
+
+/* iPhone standalone PWA: keep fixed controls below the system status bar */
+:root{--trama-safe-top:env(safe-area-inset-top, 0px);}
+@media (display-mode: standalone){
+  body{padding-top:var(--trama-safe-top);}
+  body.playing{padding-top:0;}
+  #tribute .game-top{top:0;height:calc(55px + var(--trama-safe-top));padding-top:calc(10px + var(--trama-safe-top));}
+  #tribute{padding-top:calc(65px + var(--trama-safe-top));}
+  #tribute .arena-clock{top:calc(55px + var(--trama-safe-top));}
+}
+/* Also support iOS's older standalone detection through a body class */
+body.ios-standalone{padding-top:var(--trama-safe-top);}
+body.ios-standalone.playing{padding-top:0;}
+body.ios-standalone #tribute .game-top{top:0;height:calc(55px + var(--trama-safe-top));padding-top:calc(10px + var(--trama-safe-top));}
+body.ios-standalone #tribute{padding-top:calc(65px + var(--trama-safe-top));}
+body.ios-standalone #tribute .arena-clock{top:calc(55px + var(--trama-safe-top));}
 </style>
 </head>
 <body>
@@ -433,4 +449,5 @@ async function startPublicGame(id){
 supabase.auth.onAuthStateChange((event,session)=>{if(publishedMode||new URLSearchParams(window.location.search).has('jugar'))return;user=session?.user||null;if(event==='PASSWORD_RECOVERY'){recovery=true;show('reset')}if(event==='SIGNED_OUT'){user=null;recovery=false;show('auth')}});
 (async()=>{try{const requested=new URLSearchParams(window.location.search).get('jugar');if(requested){if(!/^[0-9a-f]{8}-[0-9a-f-]{27,}$/i.test(requested)){show('loading');$('loading').querySelector('h1').textContent='Enlace inválido';return}await startPublicGame(requested);return}const {data,error}=await supabase.auth.getSession();if(error)throw error;user=data.session?.user||null;if(recovery){show('reset')}else if(user){await openDashboard()}else{setMode('login');show('auth')}}catch(e){if(new URLSearchParams(window.location.search).has('jugar')){show('loading');$('loading').querySelector('h1').textContent='No se pudo abrir la Arena';$('loading').querySelector('p').textContent=friendly(e)}else{show('auth');message('No se pudo conectar con Supabase: '+friendly(e),true)}}})();
 </script>
+<script>if(window.navigator.standalone===true){document.body.classList.add('ios-standalone')}</script>
 </body></html>
