@@ -131,6 +131,27 @@ button{max-width:100%;white-space:normal;overflow-wrap:anywhere;}
 #tribute .ceremony-letter-paper .district-emblem{width:70px;height:70px;margin:0 auto 8px}
 @media(max-width:390px){#tribute .game-slot .district-emblem{width:23px;height:23px}#tribute .ceremony-envelope .district-emblem{width:60px;height:60px}}
 
+
+/* PUERTA DINÁMICA DEL CAPITOLIO — se adapta a cualquier cantidad de medallas */
+#tribute .vault-scene{position:relative;width:min(100%,600px);margin:20px auto 16px;padding:5% 0 7%;isolation:isolate;background:radial-gradient(ellipse at 50% 58%,#5d411f55 0%,transparent 70%)}
+#tribute .vault-door{position:relative;width:100%;aspect-ratio:1;border-radius:50%;border:clamp(8px,2.4vw,16px) ridge #a47a39;background:repeating-conic-gradient(from 5deg,#6b4d26 0deg 2deg,#1a1815 2deg 10deg,#4d3a24 10deg 12deg,#181716 12deg 22deg),radial-gradient(circle,#493820,#100f0e);box-shadow:0 0 0 5px #241c13,0 0 0 8px #8b6635,0 12px 35px #000, inset 0 0 35px #000;overflow:visible}
+#tribute .vault-door:before{content:'';position:absolute;inset:9%;border:clamp(3px,1vw,7px) solid #9e7439;border-radius:50%;box-shadow:0 0 0 4px #1b1712,inset 0 0 0 4px #201810,inset 0 0 30px #000;background:repeating-conic-gradient(#0000 0deg 20deg,#d0a25935 21deg 22deg,#0000 23deg 45deg)}
+#tribute .vault-door:after{content:'';position:absolute;inset:28%;border-radius:50%;border:5px ridge #c69a52;background:radial-gradient(circle at 40% 30%,#6d4e25,#211a14 58%,#080807);box-shadow:0 0 0 7px #2d2215,0 0 0 11px #99703c,inset 0 0 20px #000;pointer-events:none}
+#tribute .vault-center{position:absolute;inset:35%;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none}
+#tribute .vault-center img{width:78%;height:78%;object-fit:contain;filter:drop-shadow(0 0 8px #b08a4b)}
+#tribute .vault-ring{position:absolute;inset:0;z-index:4}
+#tribute .vault-slot{position:absolute;left:50%;top:50%;width:var(--slot-size);height:var(--slot-size);transform:translate(-50%,-50%) rotate(var(--angle)) translateY(calc(var(--orbit) * -1)) rotate(calc(var(--angle) * -1));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:50%;padding:2px;border:3px solid #765c37;background:radial-gradient(circle at 35% 25%,#3b3327,#0c0c0b 74%);color:#c8aa74;box-shadow:0 3px 10px #000, inset 0 0 9px #000;cursor:pointer;touch-action:manipulation}
+#tribute .vault-slot .district-emblem{width:42%;height:42%;max-width:48px;max-height:48px;object-fit:contain;opacity:.5;filter:grayscale(.7)}
+#tribute .vault-slot .slot-label{font-size:clamp(7px,1.7vw,11px);line-height:1.1;text-align:center;max-width:95%;overflow-wrap:anywhere}
+#tribute .vault-slot.filled{border-color:#e6bc69;box-shadow:0 0 13px #d7a64e,0 3px 9px #000,inset 0 0 10px #b57b2940;background:radial-gradient(circle at 40% 25%,#6c4c23,#241a12 70%)}
+#tribute .vault-slot.filled .district-emblem{opacity:1;filter:drop-shadow(0 0 4px #f6ce74)}
+#tribute .vault-slot:active{filter:brightness(1.5)}
+#tribute .vault-instruction{text-align:center;color:#c9ac78;letter-spacing:1.5px;font-size:12px;margin:15px auto 5px}
+#tribute .vault-progress{text-align:center;color:#e0d1b6;font-size:12px}
+#tribute .vault-door.vault-unlocked{animation:vaultPulse 2s ease-in-out infinite}
+@keyframes vaultPulse{50%{box-shadow:0 0 0 5px #241c13,0 0 0 8px #caa25c,0 0 35px #bd914c,inset 0 0 35px #000}}
+@media(max-width:420px){#tribute .vault-slot{border-width:2px}#tribute .vault-slot .slot-label{font-size:8px}}
+
 </style>
 </head>
 <body>
@@ -285,7 +306,23 @@ function gameRender(){if(!game)return;clearTimeout(gameTimer);gameTimer=0;gameBu
  const back=tbutton(root,game.returnStage==='equipo'?'← VOLVER AL BRIEFING':'⌖ VOLVER A LA BRÚJULA',()=>gnext(game.returnStage&&game.returnStage!=='inventario'?game.returnStage:(game.equipped?'transmision':'equipo')),'inv-return');
  }
  else if(st==='puerta'){gtitle('PROTOCOLO DE EVACUACIÓN','TRANSMISIÓN FINAL');const c=gcard(root);gtext(c,config.puerta.mensaje||'La Arena será destruida. Reúne todas las medallas para escapar con vida.');root.append(tnode('div','game-eyebrow',`MEDALLAS ${game.medals.length} / ${ds.length}`));if(game.medals.length<ds.length){gtext(root,'Todavía faltan medallas para activar la puerta.');tbutton(root,'VOLVER A LA ARENA',()=>gnext('transmision'));return}const door=config.puerta;if(door.lat!=null&&door.lng!=null){const v=tnode('div','game-distance');v.append(tnode('div','game-eyebrow','DISTANCIA A LA PUERTA DE SALIDA'));const value=tnode('strong','', '-- m');value.id='gameDistance';v.append(value);root.append(v);refreshNav();tbutton(root,'RUTA A LA SALIDA',()=>window.open('https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(door.lat+','+door.lng),'_blank'),'game-btn alt')}
- root.append(tnode('h2','','PUERTA DE SALIDA'));const slots=tnode('div','game-slots');ds.forEach(d=>{const done=game.inserted.includes(d);const b=tnode('button','game-slot'+(done?' filled':''));b.append(districtEmblem(d,'tiny'),tnode('span','slot-label',(done?'✓ ':'○ ')+d));b.onclick=()=>{gclick();if(!game.inserted.includes(d))game.inserted.push(d);gameSave();gameRender()};slots.append(b)});root.append(slots);const all=game.inserted.length===ds.length;if(config.modalidad!=='digital'){gtext(root,config.modalidad==='fisica'?'Modalidad física: coloca las medallas reales en la puerta preparada por el organizador.':'Modalidad mixta: completa también la puerta física.');const physical=tbutton(root,game.physicalDoor?'✓ PUERTA FÍSICA CONFIRMADA':'CONFIRMAR APERTURA DE LA PUERTA FÍSICA',()=>{game.physicalDoor=true;gameSave();gameRender()},'game-btn alt');physical.disabled=game.physicalDoor}if(all&&(config.modalidad==='digital'||game.physicalDoor))tbutton(root,'ABRIR PUERTA · ESCAPAR CON VIDA',()=>{game.escaped=true;gnext('final')});else gtext(root,'Inserta las medallas digitales en sus huecos para desbloquear la puerta.');}
+ root.append(tnode('h2','','PUERTA DE SALIDA'));
+ const scene=tnode('div','vault-scene'),vault=tnode('div','vault-door'),ring=tnode('div','vault-ring'),center=tnode('div','vault-center');
+ const logo=tnode('img');logo.src='capitolio.png.webp';logo.alt='Emblema del Capitolio';center.append(logo);vault.append(center);
+ const count=ds.length;
+ // La órbita y el tamaño se recalculan para cada Arena; sin huecos fijos en la imagen.
+ const size=count<=4?24:count<=6?22:count<=9?19:count<=11?17:15;
+ const orbit=count<=4?34:count<=6?36:count<=9?38:count<=11?39:40;
+ ds.forEach((d,i)=>{const done=game.inserted.includes(d),found=game.medals.includes(d);
+ const b=tnode('button','vault-slot'+(done?' filled':''));b.type='button';b.style.setProperty('--slot-size',size+'%');b.style.setProperty('--orbit',orbit+'%');b.style.setProperty('--angle',(360*i/count)+'deg');
+ b.setAttribute('aria-label',(done?'Medalla insertada: ':'Insertar medalla: ')+d);
+ b.append(districtEmblem(d,'tiny'),tnode('span','slot-label',(done?'✓ ':'')+d));
+ b.onclick=()=>{gclick();if(!found)return;if(!game.inserted.includes(d)){game.inserted.push(d);gameSave();gameRender()}};ring.append(b)});
+ vault.append(ring);scene.append(vault);root.append(scene);
+ root.append(tnode('div','vault-instruction','TOCA LOS HUECOS PARA INSERTAR TUS MEDALLAS'));
+ root.append(tnode('div','vault-progress',game.inserted.length+' / '+count+' MEDALLAS INSERTADAS'));
+ if(game.inserted.length===count)vault.classList.add('vault-unlocked');
+ const all=game.inserted.length===ds.length;if(config.modalidad!=='digital'){gtext(root,config.modalidad==='fisica'?'Modalidad física: coloca las medallas reales en la puerta preparada por el organizador.':'Modalidad mixta: completa también la puerta física.');const physical=tbutton(root,game.physicalDoor?'✓ PUERTA FÍSICA CONFIRMADA':'CONFIRMAR APERTURA DE LA PUERTA FÍSICA',()=>{game.physicalDoor=true;gameSave();gameRender()},'game-btn alt');physical.disabled=game.physicalDoor}if(all&&(config.modalidad==='digital'||game.physicalDoor))tbutton(root,'ABRIR PUERTA · ESCAPAR CON VIDA',()=>{game.escaped=true;gnext('final')});else gtext(root,'Inserta las medallas digitales en sus huecos para desbloquear la puerta.');}
  else if(st==='final'){
   if(!game.escaped||game.medals.length!==ds.length){gnext('puerta');return}
   gtitle('HAS ESCAPADO CON VIDA','EVACUACIÓN COMPLETADA');gtext(root,'Las puertas se han abierto. La Arena queda atrás. El Capitolio reconoce tu supervivencia.');
