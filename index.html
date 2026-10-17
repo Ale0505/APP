@@ -102,9 +102,9 @@ body.playing{background:#050505}body.playing .wrap{width:100%;max-width:none}bod
 </main><footer class="footer">✦ · QUE LA SUERTE ESTÉ SIEMPRE DE TU PARTE · ✦</footer></div>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><audio id="bgMusic" src="Horn of Plenty.mp3" loop preload="auto"></audio><audio id="clickSound" src="Click.mp3" preload="auto"></audio><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-const URL='https://apnwltmdjyqsvsxqnszh.supabase.co';
+const SUPABASE_URL='https://apnwltmdjyqsvsxqnszh.supabase.co';
 const KEY='sb_publishable_n1HLTqi5iilyfhaqyK42bQ_Gp31SFZJ';
-const supabase=createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const supabase=createClient(SUPABASE_URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const $=id=>document.getElementById(id);
 let user=null,mode='login',editing=null,recovery=false,config=null;
 let publishedMode=false,publicAdventureId=null,editorPublished=false;
