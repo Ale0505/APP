@@ -42,6 +42,29 @@ body.playing{background:#050505}body.playing .wrap{width:100%;max-width:none}bod
 
 /* Inventario cinematográfico inspirado en el almacén original */
 #tribute .inv-header{text-align:center;margin:18px 0 26px}#tribute .inv-header h1{font:30px Cinzel,serif;letter-spacing:3px;margin:12px 0}#tribute .inv-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:22px 0}#tribute .inv-stat{border:1px solid #454039;background:#0e0e0e;padding:16px 4px;text-align:center}#tribute .inv-stat small{display:block;color:#8f887d;letter-spacing:2px;font-size:9px}#tribute .inv-stat strong{display:block;color:#c6a35b;font:20px Cinzel,serif;margin-top:9px}#tribute .inv-progress-title{display:flex;justify-content:space-between;color:#a39b8e;font-size:10px;letter-spacing:1px}#tribute .inv-progress{height:6px;background:#292929;margin:10px 0 28px}#tribute .inv-progress span{display:block;height:100%;background:#c6a35b;transition:width .6s}#tribute .inv-section{border:1px solid #383632;background:#0c0d0d;margin-bottom:20px}#tribute .inv-section-head{padding:20px 17px;border-bottom:1px solid #343434}#tribute .inv-section-head small{font-size:10px;letter-spacing:2px;color:#b79a61}#tribute .inv-section-head h2{font:24px Cinzel,serif;margin:9px 0 0}#tribute .inv-figure{min-height:350px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 10px 23px}#tribute .inv-figure img{display:block;width:100%;max-width:360px;max-height:510px;object-fit:contain;filter:drop-shadow(0 0 22px #000)}#tribute .inv-equipment{font-size:10px;letter-spacing:1.7px;color:#a8a39a;text-align:center;margin:12px 0}#tribute .inv-equipment strong{color:#c6a35b}#tribute .inv-medal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px}#tribute .inv-medal-card{border:1px solid #353535;min-height:190px;padding:20px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0e0e0e}#tribute .inv-medal-card.found{border-color:#b99a5b;background:linear-gradient(150deg,#171611,#0d0d0d)}#tribute .inv-medal-card img{width:78px;height:78px;object-fit:contain;margin-bottom:13px}#tribute .inv-medal-card h3{font:16px Cinzel,serif;margin:0 0 7px}#tribute .inv-medal-card small{font-size:9px;letter-spacing:1px;color:#8b8377}#tribute .inv-medal-card .inv-state{color:#c6a35b;margin-top:16px}#tribute .inv-medal-card:not(.found) .inv-state{color:#777}#tribute .inv-scan{position:fixed;inset:0;background:radial-gradient(circle,#241e11,#050505 75%);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center}#tribute .inv-scan img{width:90px;height:90px;object-fit:contain}#tribute .inv-scan h2{font:26px Cinzel,serif;letter-spacing:3px;color:#c6a35b;margin:35px 0 10px}#tribute .inv-scan p{font-size:11px;letter-spacing:2px;color:#a49c90}#tribute .inv-scan-track{width:100%;max-width:400px;height:5px;background:#2c2924;margin:30px 0 12px}#tribute .inv-scan-fill{height:100%;background:#c6a35b;width:0;transition:width .08s linear}#tribute .inv-scan-percent{color:#c6a35b;font:15px Cinzel,serif}#tribute .inv-return{position:sticky;bottom:80px;z-index:3;width:100%;background:#16130de8;border:1px solid #c6a35b;color:#c6a35b;padding:17px 8px;font:13px Cinzel,serif;letter-spacing:2px}#tribute .inv-gear-note{padding:0 18px;text-align:center;color:#b7ad9b;font-size:12px}#tribute .inv-equip-button{display:block;width:calc(100% - 32px);margin:12px 16px 24px;background:linear-gradient(180deg,#211a10,#0c0b09);color:#d8b978;border:1px solid #c6a35b;padding:17px;font:600 14px Cinzel,serif;letter-spacing:2px}#tribute .inv-fallback{font-size:36px;color:#b99a5b}
+
+/* Ceremonia de los Vencedores */
+#tribute .ceremony-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;width:100%;margin:22px 0}
+#tribute .ceremony-envelope{position:relative;min-height:193px;border:1px solid #9c7a40;background:radial-gradient(circle at 50% 20%,#5d461c33,transparent 75%),#10100e;color:#d6ba7b;padding:17px 8px 12px;display:flex;align-items:center;flex-direction:column;justify-content:space-between;gap:7px;box-shadow:0 6px 20px #0008;overflow:hidden}
+#tribute .ceremony-envelope:before{content:'';position:absolute;left:0;right:0;top:0;height:65%;clip-path:polygon(0 0,100% 0,50% 90%);border-bottom:1px solid #a78347;background:linear-gradient(150deg,#3c3020,#161411);opacity:.7;pointer-events:none}
+#tribute .ceremony-envelope>*{position:relative;z-index:1}
+#tribute .ceremony-envelope img{width:63px;height:63px;object-fit:contain;filter:drop-shadow(0 0 6px #c7a05444)}
+#tribute .ceremony-envelope strong{font:14px Cinzel,Georgia,serif;letter-spacing:1px}
+#tribute .ceremony-envelope small{font-size:9px;letter-spacing:1.3px;color:#a89a7b}
+#tribute .ceremony-envelope.opened{border-color:#6c795d;background:#111811;color:#c7d7b9}
+#tribute .ceremony-letter-scene{width:100%;max-width:355px;height:270px;position:relative;margin:25px auto 8px;perspective:900px}
+#tribute .ceremony-letter-envelope{position:absolute;inset:65px 10px 5px;background:linear-gradient(135deg,#312719,#13110d);border:1px solid #c6a35b;box-shadow:0 14px 40px #000b}
+#tribute .ceremony-letter-envelope:after{content:'';position:absolute;inset:0;clip-path:polygon(0 100%,50% 35%,100% 100%);background:#392c1c;z-index:3}
+#tribute .ceremony-flap{position:absolute;inset:0 0 38%;clip-path:polygon(0 0,100% 0,50% 100%);background:#6a4f2b;transform-origin:top center;z-index:5;transition:transform .9s ease,z-index 0s .5s}
+#tribute .ceremony-letter-paper{position:absolute;top:20px;left:9%;width:82%;height:205px;background:#e9dfc7;color:#312513;border:2px solid #c7a86d;padding:15px;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform 1.1s ease .6s;box-shadow:0 5px 18px #0008}
+#tribute .ceremony-letter-paper img{width:55px;height:55px;object-fit:contain;filter:brightness(.5) sepia(.7)}
+#tribute .ceremony-letter-paper strong{font:18px Cinzel,Georgia,serif}
+#tribute .ceremony-letter-scene.revealed .ceremony-flap{transform:rotateX(175deg);z-index:1}
+#tribute .ceremony-letter-scene.revealed .ceremony-letter-paper{transform:translateY(-74px);z-index:4}
+#tribute .ceremony-prize{width:100%;border:1px solid #c6a35b;background:linear-gradient(#eae0c8,#d6c59f);color:#2d2416;padding:24px 20px;margin:16px 0;text-align:center;animation:gfade .6s ease}
+#tribute .ceremony-prize h2{color:#302314;font-size:24px}#tribute .ceremony-prize p{color:#4e3e2c;font-size:15px;white-space:pre-wrap}
+#tribute .ceremony-prize .game-eyebrow{color:#705020}
+@media(max-width:350px){#tribute .ceremony-grid{gap:9px}#tribute .ceremony-envelope{min-height:174px}}
 </style>
 </head>
 <body>
@@ -125,7 +148,7 @@ let gameTimer=0,gameBusy=false,orientationActive=false;
 let filteredHeading=null;
 const shortestTurn=(from,to)=>((to-from+540)%360)-180;
 const gameKey=()=>`arena-original-v3-${user?.id||'local'}-${editing||'unsaved'}`;
-const stages=['inicio','registro','verificacion','registrado','cosecha','cuenta','seleccion','elegido','briefing','traslado','acceso','bienvenida','escaneo','equipo','transmision','brujula','codigo','recuperada','inventario','puerta','final'];
+const stages=['inicio','registro','verificacion','registrado','cosecha','cuenta','seleccion','elegido','briefing','traslado','acceso','bienvenida','escaneo','equipo','transmision','brujula','codigo','recuperada','inventario','puerta','final','ceremonia','carta','cierre'];
 const music=$('bgMusic'),click=$('clickSound');music.volume=.27;click.volume=.45;
 function gclick(){try{click.currentTime=0;click.play().catch(()=>{})}catch{}}
 function gaudio(){music.play().catch(()=>{})}
@@ -138,15 +161,16 @@ function gtitle(title,eye='TRANSMISIÓN DEL CAPITOLIO',logo=true){const root=gp(
 function gcard(root){const e=tnode('div','game-card');root.append(e);return e}
 function gfield(root,label,type='text',value=''){const l=tnode('label','game-label',label),i=tnode('input','game-input');i.type=type;i.value=value;i.autocomplete='off';root.append(l,i);return i}
 function gnext(stage){game.stage=stage;game.hint=false;gameSave();gameRender()}
-function gameInit(){syncAlijoInputs();syncArenaPoints();config.equipoBasico=$('basicEquipment').value.trim();config.modalidad=document.querySelector('input[name="playMode"]:checked').value;config.puerta={lat:$('doorLat').value===''?null:Number($('doorLat').value),lng:$('doorLng').value===''?null:Number($('doorLng').value),mensaje:$('escapeMessage').value.trim()};let old;try{old=JSON.parse(localStorage.getItem(gameKey()))}catch{}game=old&&old.version===3?old:{version:3,stage:'inicio',first:'',last:'',birth:'',index:0,medals:[],equipped:false,inserted:[],hint:false,arenaStage:0,physicalDoor:false};document.body.classList.add('playing');show('tribute');gameRender();startGeo()}
+function gameInit(){syncAlijoInputs();syncArenaPoints();config.equipoBasico=$('basicEquipment').value.trim();config.modalidad=document.querySelector('input[name="playMode"]:checked').value;config.puerta={lat:$('doorLat').value===''?null:Number($('doorLat').value),lng:$('doorLng').value===''?null:Number($('doorLng').value),mensaje:$('escapeMessage').value.trim()};let old;try{old=JSON.parse(localStorage.getItem(gameKey()))}catch{}game=old&&old.version===3?old:{version:3,stage:'inicio',first:'',last:'',birth:'',index:0,medals:[],equipped:false,inserted:[],hint:false,arenaStage:0,physicalDoor:false,escaped:false,openedLetters:[],selectedLetter:null};document.body.classList.add('playing');show('tribute');gameRender();startGeo()}
 
 function playEquipScan(){
  if(game.equipped){gameRender();return}
  const overlay=tnode('div','inv-scan');const img=tnode('img');img.src='capitolio.png.webp';overlay.append(img,tnode('h2','','PREPARANDO TRIBUTO'),tnode('p','','EQUIPANDO EQUIPO MÍNIMO'));const track=tnode('div','inv-scan-track'),fill=tnode('div','inv-scan-fill'),pct=tnode('div','inv-scan-percent','0 %');track.append(fill);overlay.append(track,pct);$('tribute').append(overlay);let progress=0;const timer=setInterval(()=>{if(!overlay.isConnected){clearInterval(timer);return}progress=Math.min(100,progress+2);fill.style.width=progress+'%';pct.textContent=progress+' %';if(progress===100){clearInterval(timer);setTimeout(()=>{game.equipped=true;gameSave();overlay.remove();game.returnStage='equipo';gnext('inventario')},500)}},45)
 }
+function districtImage(d){return d==='Capitolio'?'capitolio.png.webp':'distrito_'+(d.match(/\d+/)?.[0]||'')+'.webp'}
 function currentDistrict(){return config.distritos[Math.min(game.index,config.distritos.length-1)]}
-function gameRender(){if(!game)return;clearTimeout(gameTimer);gameTimer=0;gameBusy=false;const root=gp();if(gameMap){gameMap.remove();gameMap=null;gameMapMarker=null;gameMapTarget=null}root.replaceChildren();root.style.animation='none';void root.offsetWidth;root.style.animation='gfade .5s ease';const st=game.stage,ds=config.distritos;
- $('gameBottom').classList.toggle('hidden',!['equipo','transmision','brujula','codigo','recuperada','inventario','puerta','final'].includes(st));$('tributeInventory').disabled=st==='inventario';$('tributeCompass').disabled=!game.equipped||st==='brujula'||(st==='inventario'&&game.returnStage==='equipo');
+function gameRender(){if(!game)return;clearTimeout(gameTimer);gameTimer=0;gameBusy=false;const root=gp();if(gameMap){gameMap.remove();gameMap=null;gameMapMarker=null;gameMapTarget=null}root.replaceChildren();root.style.animation='none';void root.offsetWidth;root.style.animation='gfade .5s ease';const st=game.stage,ds=config.distritos;game.openedLetters=Array.isArray(game.openedLetters)?game.openedLetters:[];
+ $('gameBottom').classList.toggle('hidden',!['equipo','transmision','brujula','codigo','recuperada','inventario','puerta','final','ceremonia','carta','cierre'].includes(st));$('tributeInventory').disabled=st==='inventario';$('tributeCompass').disabled=!game.equipped||st==='brujula'||['final','ceremonia','carta','cierre'].includes(st)||(st==='inventario'&&game.returnStage==='equipo');
  if(st==='inicio'){gtitle('LA COSECHA','PANEM · REGISTRO OFICIAL');gtext(root,'Todo ciudadano elegible deberá presentarse ante el sistema de selección del Capitolio.');tbutton(root,'INICIAR CEREMONIA',()=>{gaudio();gnext('registro')})}
  else if(st==='registro'){gtitle('IDENTIFICACIÓN','REGISTRO DE CIUDADANOS');const c=gcard(root),first=gfield(c,'Nombre','text',game.first),last=gfield(c,'Apellidos','text',game.last),birth=gfield(c,'Fecha de nacimiento','date',game.birth);tbutton(root,'REGISTRAR CIUDADANO',()=>{if(!first.value.trim()||!last.value.trim()||!birth.value)return alert('Completa todos los datos.');game.first=first.value.trim();game.last=last.value.trim();game.birth=birth.value;gnext('verificacion')})}
  else if(st==='verificacion'){gtitle('VERIFICANDO','TERMINAL DEL CAPITOLIO');const c=tnode('div','game-terminal');root.append(c);const lines=['> ACCEDIENDO AL REGISTRO CIVIL...','> IDENTIDAD: '+game.first.toUpperCase()+' '+game.last.toUpperCase(),'> COMPROBANDO FECHA DE NACIMIENTO...','> CONSULTANDO CENSO...','> ESTADO: ELEGIBLE'];let i=0;const next=()=>{if(game.stage!=='verificacion')return;if(i>=lines.length){gameTimer=setTimeout(()=>gnext('registrado'),950);return}c.textContent+=lines[i++]+'\n';gameTimer=setTimeout(next,650)};gameTimer=setTimeout(next,350)}
@@ -174,8 +198,58 @@ function gameRender(){if(!game)return;clearTimeout(gameTimer);gameTimer=0;gameBu
  const back=tbutton(root,game.returnStage==='equipo'?'← VOLVER AL BRIEFING':'⌖ VOLVER A LA BRÚJULA',()=>gnext(game.returnStage&&game.returnStage!=='inventario'?game.returnStage:(game.equipped?'transmision':'equipo')),'inv-return');
  }
  else if(st==='puerta'){gtitle('PROTOCOLO DE EVACUACIÓN','TRANSMISIÓN FINAL');const c=gcard(root);gtext(c,config.puerta.mensaje||'La Arena será destruida. Reúne todas las medallas para escapar con vida.');root.append(tnode('div','game-eyebrow',`MEDALLAS ${game.medals.length} / ${ds.length}`));if(game.medals.length<ds.length){gtext(root,'Todavía faltan medallas para activar la puerta.');tbutton(root,'VOLVER A LA ARENA',()=>gnext('transmision'));return}const door=config.puerta;if(door.lat!=null&&door.lng!=null){const v=tnode('div','game-distance');v.append(tnode('div','game-eyebrow','DISTANCIA A LA PUERTA DE SALIDA'));const value=tnode('strong','', '-- m');value.id='gameDistance';v.append(value);root.append(v);refreshNav();tbutton(root,'RUTA A LA SALIDA',()=>window.open('https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(door.lat+','+door.lng),'_blank'),'game-btn alt')}
- root.append(tnode('h2','','PUERTA DE SALIDA'));const slots=tnode('div','game-slots');ds.forEach(d=>{const done=game.inserted.includes(d);const b=tnode('button','game-slot'+(done?' filled':''),(done?'✹ ':'○ ')+d);b.onclick=()=>{gclick();if(!game.inserted.includes(d))game.inserted.push(d);gameSave();gameRender()};slots.append(b)});root.append(slots);const all=game.inserted.length===ds.length;if(config.modalidad!=='digital'){gtext(root,config.modalidad==='fisica'?'Modalidad física: coloca las medallas reales en la puerta preparada por el organizador.':'Modalidad mixta: completa también la puerta física.');const physical=tbutton(root,game.physicalDoor?'✓ PUERTA FÍSICA CONFIRMADA':'CONFIRMAR APERTURA DE LA PUERTA FÍSICA',()=>{game.physicalDoor=true;gameSave();gameRender()},'game-btn alt');physical.disabled=game.physicalDoor}if(all&&(config.modalidad==='digital'||game.physicalDoor))tbutton(root,'ABRIR PUERTA · ESCAPAR CON VIDA',()=>gnext('final'));else gtext(root,'Inserta las medallas digitales en sus huecos para desbloquear la puerta.');}
- else if(st==='final'){gtitle('HAS ESCAPADO CON VIDA','EVACUACIÓN COMPLETADA');gtext(root,'Las puertas se han abierto. La Arena queda atrás. El Capitolio reconoce tu supervivencia.');const c=gcard(root);c.append(tnode('h2','','RECOMPENSAS DESBLOQUEADAS'));let count=0;ds.forEach(d=>{const r=getAlijo(d).recompensas||[];if(r.length){c.append(tnode('div','game-eyebrow',d));r.filter(Boolean).forEach(x=>{gtext(c,x);count++})}});if(!count)gtext(c,'No se han configurado recompensas para esta edición.');tbutton(root,'CONSULTAR INVENTARIO',()=>gnext('inventario'),'game-btn alt')}
+ root.append(tnode('h2','','PUERTA DE SALIDA'));const slots=tnode('div','game-slots');ds.forEach(d=>{const done=game.inserted.includes(d);const b=tnode('button','game-slot'+(done?' filled':''),(done?'✹ ':'○ ')+d);b.onclick=()=>{gclick();if(!game.inserted.includes(d))game.inserted.push(d);gameSave();gameRender()};slots.append(b)});root.append(slots);const all=game.inserted.length===ds.length;if(config.modalidad!=='digital'){gtext(root,config.modalidad==='fisica'?'Modalidad física: coloca las medallas reales en la puerta preparada por el organizador.':'Modalidad mixta: completa también la puerta física.');const physical=tbutton(root,game.physicalDoor?'✓ PUERTA FÍSICA CONFIRMADA':'CONFIRMAR APERTURA DE LA PUERTA FÍSICA',()=>{game.physicalDoor=true;gameSave();gameRender()},'game-btn alt');physical.disabled=game.physicalDoor}if(all&&(config.modalidad==='digital'||game.physicalDoor))tbutton(root,'ABRIR PUERTA · ESCAPAR CON VIDA',()=>{game.escaped=true;gnext('final')});else gtext(root,'Inserta las medallas digitales en sus huecos para desbloquear la puerta.');}
+ else if(st==='final'){
+  if(!game.escaped||game.medals.length!==ds.length){gnext('puerta');return}
+  gtitle('HAS ESCAPADO CON VIDA','EVACUACIÓN COMPLETADA');gtext(root,'Las puertas se han abierto. La Arena queda atrás. El Capitolio reconoce tu supervivencia.');
+  const c=gcard(root);c.append(tnode('h2','','UNA ÚLTIMA TRANSMISIÓN'));gtext(c,'Los distritos que te acompañaron durante los Juegos han preparado sus recompensas. El Capitolio convoca la Ceremonia de los Vencedores.');
+  tbutton(root,'INICIAR CEREMONIA DE LOS VENCEDORES',()=>gnext('ceremonia'));
+ }
+ else if(st==='ceremonia'){
+  if(!game.escaped||game.medals.length!==ds.length){gnext('puerta');return}
+  gtitle('CEREMONIA DE LOS VENCEDORES','EL CAPITOLIO HONRA AL SUPERVIVIENTE');gtext(root,'Cada distrito ha enviado una carta sellada. Escoge libremente qué sobre deseas abrir. Introduce su código para recibir el premio.');
+  const count=game.openedLetters.filter(d=>ds.includes(d)).length;
+  root.append(tnode('div','game-eyebrow',`CARTAS ABIERTAS · ${count} / ${ds.length}`));
+  const grid=tnode('div','ceremony-grid');ds.forEach(d=>{
+   const opened=game.openedLetters.includes(d),b=tnode('button','ceremony-envelope'+(opened?' opened':''));b.type='button';
+   const im=tnode('img');im.src=districtImage(d);im.alt='Escudo de '+d;im.onerror=()=>{im.style.display='none'};
+   b.append(tnode('small','',opened?'PREMIO ENTREGADO':'CARTA SELLADA'),im,tnode('strong','',d.toUpperCase()),tnode('small','',opened?'VOLVER A CONSULTAR':'TOCAR PARA ABRIR'));
+   b.onclick=()=>{gclick();game.selectedLetter=d;gameSave();gnext('carta')};grid.append(b)
+  });root.append(grid);
+  if(count===ds.length)tbutton(root,'FINALIZAR CEREMONIA',()=>gnext('cierre'));
+  tbutton(root,'CONSULTAR INVENTARIO',()=>{game.returnStage='ceremonia';gnext('inventario')},'game-btn alt');
+ }
+ else if(st==='carta'){
+  if(!game.escaped||game.medals.length!==ds.length){gnext('puerta');return}
+  const d=game.selectedLetter;if(!ds.includes(d)){gnext('ceremonia');return}
+  const opened=game.openedLetters.includes(d);
+  gtitle(d.toUpperCase(),'CORRESPONDENCIA OFICIAL · CAPITOLIO');
+  if(!opened){
+   gtext(root,'Esta carta está protegida por el sello de su distrito. Introduce el código que utilizaste para recuperar su medalla.');
+   const c=gcard(root),code=gfield(c,'CÓDIGO DEL DISTRITO','text');code.autocapitalize='off';
+   const feedback=tnode('p','', '');c.append(feedback);
+   tbutton(c,'ROMPER EL SELLO',()=>{
+    const expected=String(getAlijo(d).codigo||'').trim();
+    if(!expected){feedback.textContent='El organizador todavía no ha configurado el código de este distrito.';return}
+    if(code.value.trim()!==expected){feedback.textContent='Código incorrecto. El sello permanece cerrado.';return}
+    game.openedLetters.push(d);gameSave();gameRender()
+   });
+   tbutton(root,'← VOLVER A LOS SOBRES',()=>gnext('ceremonia'),'game-btn alt');
+  }else{
+   const scene=tnode('div','ceremony-letter-scene');const env=tnode('div','ceremony-letter-envelope');env.append(tnode('div','ceremony-flap'));const paper=tnode('div','ceremony-letter-paper');const img=tnode('img');img.src=districtImage(d);img.alt='Escudo de '+d;paper.append(img,tnode('strong','',d.toUpperCase()),tnode('small','','ENTREGA OFICIAL DEL DISTRITO'));env.append(paper);scene.append(env);root.append(scene);
+   const prize=tnode('div','ceremony-prize hidden');prize.append(tnode('div','game-eyebrow','RECOMPENSA DEL DISTRITO'),tnode('h2','','UN REGALO PARA EL VENCEDOR'));
+   const rewards=(getAlijo(d).recompensas||[]).filter(x=>typeof x==='string'&&x.trim());
+   if(rewards.length)rewards.forEach((r,i)=>prize.append(tnode('p','',r)));else prize.append(tnode('p','','Este distrito todavía no tiene un regalo configurado.'));
+   root.append(prize);const back=tbutton(root,'← VOLVER A LA CEREMONIA',()=>gnext('ceremonia'),'game-btn alt');
+   requestAnimationFrame(()=>{scene.classList.add('revealed');setTimeout(()=>{if(game?.stage==='carta'&&game.selectedLetter===d&&prize.isConnected)prize.classList.remove('hidden')},1450)});
+  }
+ }
+ else if(st==='cierre'){
+  if(!game.escaped||game.openedLetters.filter(d=>ds.includes(d)).length!==ds.length){gnext('ceremonia');return}
+  gtitle('HONOR AL VENCEDOR','CEREMONIA FINALIZADA');gtext(root,'Has sobrevivido a la Arena, reunido todas las medallas y recibido el reconocimiento de cada distrito. El Capitolio declara oficialmente concluidos estos Juegos.');
+  tbutton(root,'VOLVER A VER LAS CARTAS',()=>gnext('ceremonia'));
+ }
+
 }
 function makeCompass(root){const c=tnode('div','game-compass');[['n','N'],['s','S'],['e','E'],['w','O']].forEach(([cl,s])=>c.append(tnode('span','dir '+cl,s)));const arrow=tnode('div','game-arrow');c.append(arrow);root.append(c);return arrow}
 function rad(n){return n*Math.PI/180}
@@ -202,8 +276,8 @@ function drawGameMap(a){if(game?.stage!=='acceso'||game.arenaStage!==0||!$('game
 $('previewBtn').onclick=gameInit;
 $('exitPreview').onclick=()=>{clearTimeout(gameTimer);if(geoWatch!==null){navigator.geolocation.clearWatch(geoWatch);geoWatch=null}if(gameMap){gameMap.remove();gameMap=null;gameMapMarker=null;gameMapTarget=null}document.body.classList.remove('playing');music.pause();show('editor')};
 $('tributeInventory').onclick=()=>{gclick();if(game.stage!=='inventario'){game.returnStage=game.stage;gnext('inventario')}};
-$('tributeCompass').onclick=()=>{if(!game?.equipped)return;gclick();gnext(game?.returnStage&&game.returnStage!=='inventario'?game.returnStage:(game.index>=config.distritos.length?'puerta':'brujula'))};
-$('gameAdminBtn').onclick=()=>{const actions=$('gameAdminActions');actions.className='game-admin-actions';actions.replaceChildren();const add=(label,fn)=>{const b=tnode('button','',label);b.onclick=()=>{fn();$('gameAdmin').classList.add('hidden')};actions.append(b)};stages.forEach(st=>add(st.toUpperCase(),()=>{if(['equipo','transmision','brujula','codigo','recuperada','inventario','puerta','final'].includes(st))game.equipped=true;if(['puerta','final'].includes(st)){game.medals=[...config.distritos];game.index=config.distritos.length}gnext(st)}));config.distritos.forEach((d,i)=>add('ALIJO '+d,()=>{game.equipped=true;game.index=i;gnext('transmision')}));add('TODAS LAS MEDALLAS',()=>{game.medals=[...config.distritos];game.index=config.distritos.length;gnext('puerta')});add('REINICIAR PARTIDA',()=>{if(confirm('¿Reiniciar esta prueba?')){localStorage.removeItem(gameKey());game={version:3,stage:'inicio',first:'',last:'',birth:'',index:0,medals:[],equipped:false,inserted:[],hint:false,arenaStage:0,physicalDoor:false};gameRender()}});$('gameAdmin').classList.remove('hidden')};
+$('tributeCompass').onclick=()=>{if(!game?.equipped||game.escaped)return;gclick();gnext(game?.returnStage&&game.returnStage!=='inventario'?game.returnStage:(game.index>=config.distritos.length?'puerta':'brujula'))};
+$('gameAdminBtn').onclick=()=>{const actions=$('gameAdminActions');actions.className='game-admin-actions';actions.replaceChildren();const add=(label,fn)=>{const b=tnode('button','',label);b.onclick=()=>{fn();$('gameAdmin').classList.add('hidden')};actions.append(b)};stages.forEach(st=>add(st.toUpperCase(),()=>{if(['equipo','transmision','brujula','codigo','recuperada','inventario','puerta','final','ceremonia','carta','cierre'].includes(st))game.equipped=true;if(['puerta','final','ceremonia','carta','cierre'].includes(st)){game.escaped=['final','ceremonia','carta','cierre'].includes(st);game.medals=[...config.distritos];game.index=config.distritos.length;if(st==='carta')game.selectedLetter=config.distritos[0];if(st==='cierre')game.openedLetters=[...config.distritos]}gnext(st)}));config.distritos.forEach((d,i)=>add('ALIJO '+d,()=>{game.equipped=true;game.index=i;gnext('transmision')}));add('TODAS LAS MEDALLAS',()=>{game.medals=[...config.distritos];game.index=config.distritos.length;gnext('puerta')});add('REINICIAR PARTIDA',()=>{if(confirm('¿Reiniciar esta prueba?')){localStorage.removeItem(gameKey());game={version:3,stage:'inicio',first:'',last:'',birth:'',index:0,medals:[],equipped:false,inserted:[],hint:false,arenaStage:0,physicalDoor:false,escaped:false,openedLetters:[],selectedLetter:null};gameRender()}});$('gameAdmin').classList.remove('hidden')};
 $('closeGameAdmin').onclick=()=>$('gameAdmin').classList.add('hidden');
 
 supabase.auth.onAuthStateChange((event,session)=>{user=session?.user||null;if(event==='PASSWORD_RECOVERY'){recovery=true;show('reset')}if(event==='SIGNED_OUT'){user=null;recovery=false;show('auth')}});
