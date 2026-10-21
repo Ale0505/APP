@@ -1,16 +1,27 @@
 /* TRAMA - recursos locales y funcionamiento con cobertura limitada */
-const CACHE='trama-bandama-offline-v1';
+const CACHE='trama-bandama-offline-v2';
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.add('./index.html').catch(()=>{})));self.skipWaiting()});
 self.addEventListener('activate',event=>{event.waitUntil(self.clients.claim())});
 self.addEventListener('message',event=>{
- if(event.data?.type!=='PREPARE_OFFLINE')return;
+ const {type,files=[]}=event.data||{};
+ if(type!=='PREPARE_OFFLINE'&&type!=='CHECK_OFFLINE')return;
  event.waitUntil((async()=>{
-  const cache=await caches.open(CACHE),essentialFailed=[],optionalFailed=[];
-  for(const [list,failed] of [[event.data.essential||[],essentialFailed],[event.data.optional||[],optionalFailed]]){
-   for(const url of list){try{const req=new Request(new URL(url,self.registration.scope).href,{mode:'cors',credentials:'same-origin'});const res=await fetch(req,{cache:'reload'});if(!res.ok)throw Error(String(res.status));await cache.put(req,res.clone())}catch(e){failed.push(url)}}
+  const cache=await caches.open(CACHE),failed=[];
+  for(const item of files){
+   const url=new URL(item,self.registration.scope).href;
+   const request=new Request(url,{mode:'cors',credentials:'same-origin'});
+   try{
+    let saved=await cache.match(request);
+    if(type==='PREPARE_OFFLINE'&&!saved){
+     const response=await fetch(request,{cache:'reload'});
+     if(!response.ok||response.type==='opaque')throw Error('Recurso no disponible');
+     await cache.put(request,response.clone());saved=await cache.match(request);
+    }
+    if(!saved)failed.push(item);
+   }catch(e){failed.push(item)}
   }
-  event.ports[0]?.postMessage({essentialFailed,optionalFailed});
- })())
+  event.ports[0]?.postMessage({ready:failed.length===0,failed,missing:failed});
+ })());
 });
 self.addEventListener('fetch',event=>{
  const req=event.request,url=new URL(req.url);
