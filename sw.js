@@ -1,7 +1,7 @@
 /* TRAMA - recursos locales y funcionamiento con cobertura limitada */
-const CACHE='trama-bandama-offline-v6';
+const CACHE='trama-bandama-offline-v7';
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.add('./index.html').catch(()=>{})));self.skipWaiting()});
-self.addEventListener('activate',event=>{event.waitUntil(self.clients.claim())});
+self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('trama-bandama-offline-')&&k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim()})())});
 self.addEventListener('message',event=>{
  const {type,files=[]}=event.data||{};
  if(type!=='PREPARE_OFFLINE'&&type!=='CHECK_OFFLINE')return;
@@ -43,7 +43,13 @@ self.addEventListener('fetch',event=>{
    }
    return fetch(req);
   }
-  const cached=await cache.match(req,{ignoreSearch:local&&req.mode==='navigate'});
+  // HTML: consultar la red primero para que GitHub Pages publique los cambios.
+  // Si no hay conexión, recuperar la versión guardada.
+  if(local&&req.mode==='navigate'){
+   try{const fresh=await fetch(req,{cache:'no-store'});if(fresh.ok)await cache.put(new URL('./index.html',self.registration.scope).href,fresh.clone());return fresh}
+   catch(e){const fallback=await cache.match(new URL('./index.html',self.registration.scope).href);if(fallback)return fallback;throw e}
+  }
+  const cached=await cache.match(req);
   if(cached)return cached;
   try{const response=await fetch(req);if(response.ok||response.type==='opaque')cache.put(req,response.clone()).catch(()=>{});return response}
   catch(e){if(req.mode==='navigate'){const fallback=await cache.match(new URL('./index.html',self.registration.scope).href);if(fallback)return fallback}throw e}
