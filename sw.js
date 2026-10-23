@@ -1,5 +1,5 @@
 /* TRAMA - recursos locales y funcionamiento con cobertura limitada */
-const CACHE='trama-bandama-offline-v5';
+const CACHE='trama-bandama-offline-v6';
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.add('./index.html').catch(()=>{})));self.skipWaiting()});
 self.addEventListener('activate',event=>{event.waitUntil(self.clients.claim())});
 self.addEventListener('message',event=>{
